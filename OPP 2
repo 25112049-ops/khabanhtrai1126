@@ -1,0 +1,106 @@
+#CHAPTTER 1
+
+#1.How many seconds are there in 42 minutes 42 seconds?
+min = 42
+sec = 42
+total_seconds = (min*60) + sec
+print("There are" ,total_seconds, "seconds in 42 minutes 42 seconds.")
+
+#2. How many miles are there in 10 kilometers? Hint: 1 mile = 1.61 kilometers
+km = 10
+miles = km / 1.61
+total_miles = miles
+print("There are", total_miles, "miles in 10 kilometers.")
+ 
+#3. If you run 10 kilometers in 42 minutes 42 seconds, what is your average pace (time per mile in minutes and seconds)?
+total_time_secondes = min*60 + sec
+time_hours = total_time_secondes / 3600
+average_speed_km_per_hour = km / time_hours
+average_speed_miles_per_hour = average_speed_km_per_hour / 1.61
+print("Your average pace is", average_speed_miles_per_hour, "miles per hour.")
+
+
+
+#chaptter 2
+
+# 1. Thể tích của một hình cầu có bán kính r. Thể tích của một hình cầu có bán kính r là bao nhiêu?
+
+import math
+print("2.1 Thể tích của hình có bán kính r là bao nhiêu ?")
+p =(float(input("Nhập bán kính r: ")))
+Volume = (4/3 * math.pi * p**3)
+print("Thể tích của hình cầu là:", Volume)
+
+# 2. Giả sử giá bìa của một cuốn sách là 24,95 đô la, nhưng các nhà sách được giảm giá 40%.
+# Chi phí vận chuyển là 3 đô la cho cuốn đầu tiên và 75 xu cho mỗi cuốn tiếp theo. Tổng chi phí bán buôn cho 60 cuốn là bao nhiêu?
+
+book = 24.95
+discount = 0.4
+ship1 = 3
+ship2 = 0.75
+book_cost = book * (1 - discount) * 60
+shipping_cost = ship1 + ship2 * 59
+total = book_cost + shipping_cost
+print('2.The total wholesale cost for 60 copies:', total)
+
+#3
+
+easy_pace = 8 + 15/60
+tempo = 7 + 12/60
+total_time = 2 * easy_pace + 3 * tempo   # minutes
+start_time = 6 * 60 + 52   # convert 6:52 AM into minutes
+time_get_home = start_time + total_time
+hour = int(time_get_home // 60)
+minute = int(time_get_home % 60)
+print('3.You get home at:', hour, ':', minute)
+
+
+#chaptter 3
+
+#1. Write a function that draws a grid like the following:
+# + - - - - + - - - - + 
+# |         |         |
+# |         |         | 
+# |         |         |
+# |         |         |
+# + - - - - + - - - - + 
+# |         |         |
+# |         |         |
+# |         |         |
+# |         |         |
+# + - - - - + - - - - + 
+#2. Write a function that draws a similar grid with four rows and four columns.
+
+
+chaptter5
+
+for i in range (2):
+    print (('+ '+'- '*4)*2+'+ ')
+    for i in range(4):
+        print (('| '+' '*8)*2+'| ')
+print (('+ '+'- '*4)*2+'+ ')
+
+def grid(a):
+    for i in range (a):
+        print (('+ '+'- '*4)*a+'+ ')
+        for i in range(4):
+            print (('| '+' '*8)*a+'| ')
+    print (('+ '+'- '*4)*a+'+ ')
+a=int(input('2.Enter a:'))
+grid(a)
+
+import time
+
+t = time.time()
+
+days = t // 86400
+remaining = t % 86400
+
+hours = remaining // 3600
+remaining = remaining % 3600
+
+minutes = remaining // 60
+seconds = remaining % 60
+
+print(days,':', hours,':', minutes,':', seconds)
+
