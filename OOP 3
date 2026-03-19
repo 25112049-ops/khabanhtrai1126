@@ -1,0 +1,13 @@
+class Hero:
+    def __init__(self, para_ten , para_vu_khi, para_mau_sac):
+        self.ten = "Hero" + para_ten
+        self.vu_khi = para_vu_khi
+        self.mau_sac = para_mau_sac
+    def xin_chao(self):
+        print("Cin chao , anh la ",self.ten) 
+
+Hero_01 = Hero(" Goku","KAMEKAMEHA","NUDE" ) 
+print("Ten cua ",Hero_01.ten)
+print("Vu khi cua hero",Hero_01.vu_khi)
+print("Mau sac cua hero",Hero_01.mau_sac)
+print(Hero_01.xin_chao())
