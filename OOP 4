@@ -1,26 +1,140 @@
-class NhanVien:
-    LuongMax = 20000000
-    def __init__(self, tenNhanVien,luongCoban,heSoLuong):
-            self.tenNhanVien = tenNhanVien
-            self.luongCoban = luongCoban
-            self.heSoLuong = heSoLuong
-        
-    def tinhLuong(self):
-        return self.luongCoban * self.heSoLuong
+bài 2
+class Employee:
+    MAX_SALARY = 360000000
+    
+    def __init__(self, name="", base_salary=0, coefficient=0.0):
+        self.__name = name
+        self.__base_salary = base_salary
+        self.__coefficient = coefficient
 
-    def inTT():
-        print("Tên nhân viên: ", self.tenNhanVien)
-        print("Lương cơ bản: ", self.luongCoban)
-        print("Hệ số lương: ", self.heSoLuong)
-        print("Lương: ", self.tinhLuong())
+    @property
+    def name(self):
+        return self.__name
 
-    def tangLuong(self, heSoTang):
-        hesomoi = self.heSoLuong + heSoTang
-        luongmoi = self.luongCoban * hesomoi
+    @property
+    def coefficient(self):
+        return self.__coefficient
+
+    @coefficient.setter
+    def title(self, value):
+        self.__coefficient = value
+
+    def calculate_salary(self):
+        return self.__base_salary * self.__coefficient
+
+    def display_info(self):
+        salary = self.calculate_salary()
+        print(f"--- Employee Information ---")
+        print(f"Name: {self.__name}")
+        print(f"Salary: {self.__base_salary} x {self.__coefficient} = {salary:,.0f} VND")
+
+    def increase_coefficient(self, increment):
+        """Tách biệt logic kiểm tra và cập nhật, không dùng input() bên trong class"""
+        new_salary = self.__base_salary * (self.__coefficient + increment)
         
-        if luongmoi > self.LuongMax:
-            print("Lương mới vượt quá mức cho phép!")
+        if new_salary > self.MAX_SALARY:
+            print("Error: Salary exceeds the maximum limit!")
             return False
+        
+        self.__coefficient += increment
+        print(f"Update successful. New coefficient: {self.__coefficient}")
+        return True
+
+# --- Các lớp bổ trợ cho hình học ---
+
+class Point:
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+    
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+class LineSegment:
+    def __init__(self, *args):
+        # Hỗ trợ đa dạng đầu vào (Overloading-like behavior)
+        if len(args) == 0:
+            self.p1, self.p2 = Point(0, 0), Point(0, 0)
+        elif len(args) == 1 and isinstance(args[0], LineSegment):
+            self.p1, self.p2 = args[0].p1, args[0].p2
+        elif len(args) == 2 and isinstance(args[0], Point):
+            self.p1, self.p2 = args[0], args[1]
+        elif len(args) == 4:
+            self.p1 = Point(args[0], args[1])
+            self.p2 = Point(args[2], args[3])
         else:
-            self.heSoLuong = hesomoi
-            return True
+            raise ValueError("Invalid arguments for LineSegment")
+
+    def __str__(self):
+        return f"Line[{self.p1}, {self.p2}]"
+
+# --- Main Execution ---
+
+if __name__ == "__main__":
+    # 1. Kiểm tra Nhân viên
+    print("--- TESTING EMPLOYEE CLASS ---")
+    emp1 = Employee("John Doe", 8100000, 5.5)
+    emp1.display_info()
+    
+    # Nhập liệu được thực hiện ở lớp ngoài (UI/Main) thay vì trong Class
+    try:
+        inc = float(input("Enter coefficient increment: "))
+        emp1.increase_coefficient(inc)
+    except ValueError:
+        print("Invalid input.")
+    
+    emp1.display_info()
+
+    print("\n--- TESTING GEOMETRY CLASSES ---")
+    l1 = LineSegment()
+    print(f"l1 (Default): {l1}")
+
+    l2 = LineSegment(Point(3, 4), Point(5, 6))
+    print(f"l2 (From 2 Points): {l2}")
+
+    l3 = LineSegment(7, 8, 9, 10)
+    print(f"l3 (From 4 coordinates): {l3}")
+
+    l4 = LineSegment(l2)
+    print(f"l4 (Copy from l2): {l4}")
+
+
+ bài 1
+import copy
+class Point: 
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return f'({self.x}, {self.y})'
+class LineSegment:
+    def __init__(self, *args):
+        """
+        Khởi tạo đa năng:
+        - Không tham số: (8,5) -> (1,0)
+        - 1 tham số: Sao chép từ LineSegment khác
+        - 2 tham số: Hai đối tượng Point
+        - 4 tham số: x1, y1, x2, y2
+        """
+        if len(args) == 0:
+            self.__d1 = Point(8, 5)
+            self.__d2 = Point(1, 0)
+        elif len(args) == 1 and isinstance(args[0], LineSegment):
+            self.__d1 = copy.deepcopy(args[0].getD1())
+            self.__d2 = copy.deepcopy(args[0].getD2())
+        elif len(args) == 2 and isinstance(args[0], Point) and isinstance(args[1], Point):
+            self.__d1 = args[0]
+            self.__d2 = args[1]
+        elif len(args) == 4:
+            self.__d1 = Point(args[0], args[1])
+            self.__d2 = Point(args[2], args[3])
+        else:
+            self.__d1 = Point(0, 0)
+            self.__d2 = Point(0, 0)
+
+    def getD1(self): return self.__d1
+    def getD2(self): return self.__d2
+
+    def __str__(self):
+        return f'{self.__d1} và {self.__d2}'
