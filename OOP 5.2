@@ -1,0 +1,57 @@
+class MatHang:
+    def __init__(self, ma_hang, ten_hang, nha_san_xuat, gia):
+        self.ma_hang = ma_hang
+        self.ten_hang = ten_hang
+        self.nha_san_xuat = nha_san_xuat
+        self.gia = gia
+
+    def xuat_thong_tin(self):
+        print(f"Mã hàng: {self.ma_hang}")
+        print(f"Tên hàng: {self.ten_hang}")
+        print(f"Nhà sản xuất: {self.nha_san_xuat}")
+        print(f"Giá: {self.gia}")
+
+class HangDienMay(MatHang):
+    def __init__(self, ma_hang, ten_hang, nha_san_xuat, gia, thoi_gian_bao_hanh, dien_ap, cong_suat):
+        super().__init__(ma_hang, ten_hang, nha_san_xuat, gia)
+        self.thoi_gian_bao_hanh = thoi_gian_bao_hanh
+        self.dien_ap = dien_ap
+        self.cong_suat = cong_suat
+
+    def xuat_thong_tin(self):
+        super().xuat_thong_tin()
+        print(f"Thời gian bảo hành: {self.thoi_gian_bao_hanh} tháng")
+        print(f"Điện áp: {self.dien_ap}V")
+        print(f"Công suất: {self.cong_suat}W")
+
+class HangSanhSu(MatHang):
+    def __init__(self, ma_hang, ten_hang, nha_san_xuat, gia, loai_nguyen_lieu):
+        super().__init__(ma_hang, ten_hang, nha_san_xuat, gia)
+        self.loai_nguyen_lieu = loai_nguyen_lieu
+
+    def xuat_thong_tin(self):
+        super().xuat_thong_tin()
+        print(f"Loại nguyên liệu: {self.loai_nguyen_lieu}")
+
+class HangThucPham(MatHang):
+    def __init__(self, ma_hang, ten_hang, nha_san_xuat, gia, ngay_san_xuat, ngay_het_han):
+        super().__init__(ma_hang, ten_hang, nha_san_xuat, gia)
+        self.ngay_san_xuat = ngay_san_xuat
+        self.ngay_het_han = ngay_het_han
+
+    def xuat_thong_tin(self):
+        super().xuat_thong_tin()
+        print(f"Ngày sản xuất: {self.ngay_san_xuat}")
+        print(f"Ngày hết hạn: {self.ngay_het_han}")
+
+# Tạo các đối tượng mẫu
+dien_may = HangDienMay("METQUA123", "Tủ lạnh", "lG", 36000000, 24, 220, 150)
+sanh_su = HangSanhSu("QUAMET321", "Bộ ấm chén", "Minh Beo", 360000, "Gốm sứ cao cấp")
+thuc_pham = HangThucPham("AHIHI", "Sữa", "Vinamlk", 30000, "30/03/2024", "03/06/2036")
+
+print("--- Thông tin hàng điện máy ---")
+dien_may.xuat_thong_tin()
+print("\n--- Thông tin hàng sành sứ ---")
+sanh_su.xuat_thong_tin()
+print("\n--- Thông tin hàng thực phẩm ---")
+thuc_pham.xuat_thong_tin()        
