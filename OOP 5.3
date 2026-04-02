@@ -1,0 +1,69 @@
+class NhanVien:
+    def __init__(self, ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong):
+        self.ma_nv = ma_nv
+        self.ho_ten = ho_ten
+        self.gioi_tinh = gioi_tinh
+        self.dia_chi = dia_chi
+        self.he_so_luong = he_so_luong
+        self.luong_co_ban = 2000000 # Giả định lương cơ bản
+
+    def tinh_luong(self):
+        return self.he_so_luong * self.luong_co_ban
+
+    def xuat_thong_tin(self):
+        print(f"Mã NV: {self.ma_nv}")
+        print(f"Họ tên: {self.ho_ten}")
+        print(f"Giới tính: {self.gioi_tinh}")
+        print(f"Địa chỉ: {self.dia_chi}")
+        print(f"Hệ số lương: {self.he_so_luong}")
+        print(f"Lương: {self.tinh_luong()} VND")
+
+class CongTacVien(NhanVien):
+    def __init__(self, ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong, thoi_han_hop_dong, phu_cap_lao_dong):
+        super().__init__(ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong)
+        self.thoi_han_hop_dong = thoi_han_hop_dong
+        self.phu_cap_lao_dong = phu_cap_lao_dong
+
+    def tinh_luong(self):
+        return super().tinh_luong() + self.phu_cap_lao_dong
+
+    def xuat_thong_tin(self):
+        super().xuat_thong_tin()
+        print(f"Thời hạn hợp đồng: {self.thoi_han_hop_dong}")
+        print(f"Phụ cấp lao động: {self.phu_cap_lao_dong} VND")
+
+class NhanVienChinhThuc(NhanVien):
+    def __init__(self, ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong, vi_tri_cong_viec):
+        super().__init__(ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong)
+        self.vi_tri_cong_viec = vi_tri_cong_viec
+
+    def xuat_thong_tin(self):
+        super().xuat_thong_tin()
+        print(f"Vị trí công việc: {self.vi_tri_cong_viec}")
+
+class TruongPhong(NhanVien):
+    def __init__(self, ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong, ngay_bat_dau_quan_ly, phu_cap_quan_ly):
+        super().__init__(ma_nv, ho_ten, gioi_tinh, dia_chi, he_so_luong)
+        self.ngay_bat_dau_quan_ly = ngay_bat_dau_quan_ly
+        self.phu_cap_quan_ly = phu_cap_quan_ly
+
+    def tinh_luong(self):
+        return super().tinh_luong() + self.phu_cap_quan_ly
+
+    def xuat_thong_tin(self):
+        super().xuat_thong_tin()
+        print(f"Ngày bắt đầu quản lý: {self.ngay_bat_dau_quan_ly}")
+        print(f"Phụ cấp quản lý: {self.phu_cap_quan_ly} VND")
+
+# Tạo các đối tượng mẫu
+ctv = CongTacVien("001", "Nguyễn Văn A", "Nam", "Phở Hà Nội", 2.5, "6 tháng", 500000)
+nvct = NhanVienChinhThuc("002", "Trần Thị B", "Nữ", "Bánh Mì Que Đà Nẵng", 3.0, "Nhân viên kinh doanh")
+tp = TruongPhong("003", "Lê Văn C", "Nam", "Bún Bò Huế", 4.0, "01/01/2007", 2000000)
+
+print("--- Thông tin cộng tác viên ---")
+ctv.xuat_thong_tin()
+print("\n--- Thông tin nhân viên chính thức ---")
+nvct.xuat_thong_tin()
+print("\n--- Thông tin trưởng phòng ---")
+tp.xuat_thong_tin()
+        
