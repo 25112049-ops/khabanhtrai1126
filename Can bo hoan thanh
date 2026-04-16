@@ -1,0 +1,99 @@
+from abc import ABC, abstractmethod
+import json
+import os
+
+# --- Yêu cầu 1: Sử dụng Abstract Method ---
+
+class CanBo(ABC):
+    def __init__(self, ho_ten, tuoi, gioi_tinh, dia_chi):
+        self.ho_ten = ho_ten
+        self.tuoi = tuoi
+        self.gioi_tinh = gioi_tinh
+        self.dia_chi = dia_chi
+
+    @abstractmethod
+    def get_info(self):
+        """Phương thức trừu tượng, các lớp con bắt buộc phải cài đặt"""
+        pass
+
+    def to_dict(self):
+        """Chuyển đối tượng thành dictionary để lưu file JSON"""
+        data = self.__dict__.copy()
+        data['loai'] = self.__class__.__name__
+        return data
+
+class CongNhan(CanBo):
+    def __init__(self, ho_ten, tuoi, gioi_tinh, dia_chi, bac):
+        super().__init__(ho_ten, tuoi, gioi_tinh, dia_chi)
+        self.bac = bac
+
+    def get_info(self):
+        return f"[Công Nhân] Tên: {self.ho_ten}, Bậc: {self.bac}/10, Địa chỉ: {self.dia_chi}"
+
+class KySu(CanBo):
+    def __init__(self, ho_ten, tuoi, gioi_tinh, dia_chi, nganh_dao_tao):
+        super().__init__(ho_ten, tuoi, gioi_tinh, dia_chi)
+        self.nganh_dao_tao = nganh_dao_tao
+
+    def get_info(self):
+        return f"[Kỹ Sư] Tên: {self.ho_ten}, Ngành: {self.nganh_dao_tao}, Địa chỉ: {self.dia_chi}"
+
+class NhanVien(CanBo):
+    def __init__(self, ho_ten, tuoi, gioi_tinh, dia_chi, cong_viec):
+        super().__init__(ho_ten, tuoi, gioi_tinh, dia_chi)
+        self.cong_viec = cong_viec
+
+    def get_info(self):
+        return f"[Nhân Viên] Tên: {self.ho_ten}, Công việc: {self.cong_viec}, Địa chỉ: {self.dia_chi}"
+
+# --- Yêu cầu 2: Quản lý File và Tối ưu Tìm kiếm ---
+
+class QLCB:
+    FILE_PATH = "danh_sach_can_bo.json"
+
+    def __init__(self):
+        self.danh_sach = self.load_tu_file()
+
+    def them_moi(self, can_bo):
+        self.danh_sach.append(can_bo)
+        self.luu_vao_file()
+        print("✔ Đã lưu vào hệ thống.")
+
+    def hien_thi(self):
+        if not self.danh_sach:
+            print("⚠ Danh sách trống.")
+        for cb in self.danh_sach:
+            print(cb.get_info())
+
+    def tim_kiem(self, ten):
+        # Tối ưu: Dùng filter và chuẩn hóa chuỗi để tìm kiếm mượt hơn
+        ten_chuan = ten.strip().lower()
+        ket_qua = list(filter(lambda cb: ten_chuan in cb.ho_ten.lower(), self.danh_sach))
+        
+        if ket_qua:
+            print(f"--- Tìm thấy {len(ket_qua)} kết quả ---")
+            for cb in ket_qua: print(cb.get_info())
+        else:
+            print("❌ Không tìm thấy cán bộ nào.")
+
+    # --- Xử lý File JSON ---
+    def luu_vao_file(self):
+        with open(self.FILE_PATH, "w", encoding="utf-8") as f:
+            json.dump([cb.to_dict() for cb in self.danh_sach], f, ensure_ascii=False, indent=4)
+
+    def load_tu_file(self):
+        if not os.path.exists(self.FILE_PATH):
+            return []
+        try:
+            with open(self.FILE_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return [self.khoi_tao_doi_tuong(d) for d in data]
+        except:
+            return []
+
+    def khoi_tao_doi_tuong(self, d):
+        """Chuyển từ dict JSON ngược lại thành Object tương ứng"""
+        loai = d.pop('loai')
+        if loai == 'CongNhan': return CongNhan(**d)
+        if loai == 'KySu': return KySu(**d)
+        if loai == 'NhanVien': return NhanVien(**d)
